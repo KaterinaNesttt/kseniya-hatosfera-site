@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const navLinks = [
     { href: "#about", label: "Про нас" },
@@ -13,11 +21,14 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
+    <header className={`fixed top-0 left-0 right-0 z-50  backdrop-blur-md  duration-500 ${
+      scrolled ?
+      "bg-primary/40 shadow-sm opacity-95 py-3" :
+      "bg-primary-foreground/85 opacity-80 py-5"}`}>
       <div className="section-container">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3">
+          <a href="#" className="flex items-center gap-3" onClick={(e) => {e.preventDefault();window.scrollTo({ top: 0, behavior: "smooth" });}}>
             <div className="w-10 h-10 md:w-12 md:h-12 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-primary-foreground font-serif text-lg md:text-xl font-bold">КБ</span>
             </div>
@@ -46,9 +57,9 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:flex items-center gap-4">
-            <a href="tel:+380123456789" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+            <a href="tel:+380502155397" className="flex items-center gap-2 text-primary hover:text-primary-foreground transition-colors ">
               <Phone className="w-4 h-4" />
-              <span className="text-sm font-medium">+380 12 345 6789</span>
+              <span className="text-sm font-medium">+380 50 215 5397</span>
             </a>
             <Button className="btn-primary">
               Консультація

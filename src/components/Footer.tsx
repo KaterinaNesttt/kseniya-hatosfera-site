@@ -111,7 +111,7 @@ const Footer = () => {
               <li>
               <a href="mailto:ksenia.bondarenko@email.ua" className="flex items-center gap-3 text-primary-foreground/70 hover:text-primary-foreground transition-colors">
                   <Mail className="w-5 h-5 text-primary" />
-                  <span>ksenia.bondarenko@email.ua</span>
+                  <span>ksenia.bondarenko@gmail.ua</span>
                 </a>
               </li>
               <li>

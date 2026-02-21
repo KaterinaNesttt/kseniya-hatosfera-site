@@ -8,19 +8,19 @@ const Contact = () => {
     {
       icon: Phone,
       title: "Телефон",
-      content: "+380 12 345 6789",
-      link: "tel:+380123456789",
+      content: "+380 50 215 5397",
+      link: "tel:+380502155397",
     },
     {
       icon: Mail,
       title: "Email",
-      content: "ksenia.bondarenko@email.ua",
-      link: "mailto:ksenia.bondarenko@email.ua",
+      content: "ksenia.bondarenko@gmail.ua",
+      link: "mailto:ksenia.bondarenko@gmail.ua",
     },
     {
       icon: MapPin,
       title: "Адреса",
-      content: "м. Київ, вул. Хрещатик, 1",
+      content: "м. Кропивницький, вул. Островського 15",
       link: "#",
     },
     {
