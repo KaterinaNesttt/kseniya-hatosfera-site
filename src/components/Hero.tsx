@@ -11,45 +11,33 @@ const Hero = () => {
   ];
 
   const videoRef = useRef<HTMLVideoElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // Автозапуск + невелика швидкість
     video.play().catch(() => {});
     video.playbackRate = 0.99;
 
-    const handleScroll = () => {
-      if (!sectionRef.current || !video) return;
-
-      const rect = sectionRef.current.getBoundingClientRect();
-      const scrollProgress = Math.max(0, Math.min(1, (window.scrollY - rect.top + window.innerHeight) / (rect.height + window.innerHeight)));
-
-      // Паралакс: відео рухається повільніше за сторінку
-      // scale від 1.0 до 1.12 + вертикальний зсув
-      const scale = 1.0 + scrollProgress * 0.35;
-      const translateY = scrollProgress * 80; // пікселі зсуву вгору
-
-      video.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+    // Примусово вимикаємо будь-які трансформації при скролі
+    const preventTransform = () => {
+      if (video) {
+        video.style.transform = "none";
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // початкове положення
+    window.addEventListener("scroll", preventTransform);
+    preventTransform(); // на випадок початкового зсуву
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", preventTransform);
     };
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative min-h-[100vh] flex items-center pt-20 overflow-hidden"
-    >
-      {/* Video Background з паралаксом */}
-      <div className="absolute inset-0">
+    <section className="relative min-h-[100vh] flex items-center pt-20 overflow-hidden">
+      {/* Фіксований фон з відео */}
+      <div className="fixed inset-0 z-[-1]">
         <video
           ref={videoRef}
           src={heroVideo}
@@ -59,17 +47,13 @@ const Hero = () => {
           playsInline
           preload="auto"
           poster="/fallback.jpg"
-          className="absolute inset-0 w-full h-full object-cover will-change-transform"
-          style={{
-            transformOrigin: "center center",
-            transition: "transform 0.15s ease-out", // плавність
-          }}
+          className="absolute inset-0 w-full h-full object-cover"
         />
-        {/* Градієнт поверх відео для кращої читабельності тексту */}
+        {/* Градієнт для читабельності */}
         <div className="absolute inset-0 bg-gradient-to-r from-foreground/85 via-foreground/65 to-foreground/45 opacity-90" />
       </div>
 
-      {/* Основний контент */}
+      {/* Контент, який прокручуватиметься */}
       <div className="section-container relative z-10 py-20">
         <div className="max-w-xl mx-auto text-center md:text-left">
           {/* Badge */}
@@ -109,13 +93,6 @@ const Hero = () => {
               </div>
             ))}
           </div>
-        </div>
-      </div>
-
-      {/* Стрілка вниз */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
-        <div className="w-6 h-10 border-2 border-primary-foreground/30 rounded-full flex justify-center pt-2">
-          <div className="w-1.5 h-3 bg-primary-foreground/50 rounded-full" />
         </div>
       </div>
     </section>
