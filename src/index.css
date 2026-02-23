@@ -179,3 +179,16 @@
     }
   }
 }
+
+@keyframes slow-parallax {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-20%);
+  }
+}
+
+.animate-slow-parallax {
+  animation: slow-parallax 60s linear infinite alternate;
+}
