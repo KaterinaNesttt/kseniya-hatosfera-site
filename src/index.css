@@ -86,16 +86,43 @@
 
   html {
     scroll-behavior: smooth;
+    /* Невеликий відступ при якірних переходах, щоб контент не ховався під шапкою */
+    scroll-padding-top: 5rem;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
+    /* Уникаємо горизонтального скролу через декоративні елементи */
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', serif;
     @apply font-semibold tracking-tight;
+  }
+
+  /* Кастомний скролбар */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--secondary));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--steel-light) / 0.6);
+    border-radius: 6px;
+    border: 2px solid hsl(var(--secondary));
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--steel));
+  }
+
+  /* Виділення тексту в фірмових кольорах */
+  ::selection {
+    background: hsl(var(--steel) / 0.25);
+    color: hsl(var(--foreground));
   }
 }
 
@@ -176,6 +203,184 @@
     to {
       opacity: 1;
       transform: scale(1);
+    }
+  }
+
+  /* ───── Scroll Reveal: базовий патерн ─────
+     Додаємо клас .reveal до елемента — він сховається.
+     Коли потрапить у viewport, хук use-scroll-reveal додасть .is-visible. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  /* Варіації reveal */
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-right.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-scale.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .reveal-blur {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(24px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-blur.is-visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+
+  /* Stagger-затримки для дочірніх елементів у списках */
+  .stagger > *:nth-child(1) { transition-delay: 0.05s; }
+  .stagger > *:nth-child(2) { transition-delay: 0.15s; }
+  .stagger > *:nth-child(3) { transition-delay: 0.25s; }
+  .stagger > *:nth-child(4) { transition-delay: 0.35s; }
+  .stagger > *:nth-child(5) { transition-delay: 0.45s; }
+  .stagger > *:nth-child(6) { transition-delay: 0.55s; }
+  .stagger > *:nth-child(7) { transition-delay: 0.65s; }
+  .stagger > *:nth-child(8) { transition-delay: 0.75s; }
+
+  /* Декоративний м'який blob для секцій */
+  .decor-blob {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 9999px;
+    filter: blur(80px);
+    opacity: 0.5;
+    z-index: 0;
+  }
+
+  /* Текстовий шиммер для акцентів */
+  .text-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--steel-dark)) 0%,
+      hsl(var(--steel-light)) 50%,
+      hsl(var(--steel-dark)) 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer-text 4s linear infinite;
+  }
+  @keyframes shimmer-text {
+    to { background-position: 200% center; }
+  }
+
+  /* М'який hover-lift для карток */
+  .lift-on-hover {
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .lift-on-hover:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px -12px hsl(200 10% 20% / 0.18);
+  }
+
+  /* Декоративний підкреслювач під заголовками */
+  .heading-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .heading-underline::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -12px;
+    width: 60px;
+    height: 3px;
+    border-radius: 2px;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    background: linear-gradient(
+      90deg,
+      hsl(var(--steel-light)),
+      hsl(var(--steel-dark))
+    );
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+  }
+  .reveal.is-visible .heading-underline::after,
+  .heading-underline.is-visible::after {
+    transform: translateX(-50%) scaleX(1);
+  }
+
+  /* ───── Плавні переходи між секціями ─────
+     Градієнтні fade-оверлеї, що розмивають різкі межі між фонами секцій. */
+  .section-fade-top {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 120px;
+    pointer-events: none;
+    z-index: 5;
+  }
+  .section-fade-bottom {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 120px;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  /* Респект налаштувань ОС: вимикаємо анімації для prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    .reveal,
+    .reveal-left,
+    .reveal-right,
+    .reveal-scale,
+    .reveal-blur {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
     }
   }
 }
