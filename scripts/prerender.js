@@ -66,6 +66,8 @@ function getKyivDate() {
 }
 
 function generateBreadcrumbSchema(page) {
+  const pageUrl = `${siteUrl}${page.path}/`;
+
   return JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -80,14 +82,14 @@ function generateBreadcrumbSchema(page) {
         '@type': 'ListItem',
         position: 2,
         name: page.label,
-        item: `${siteUrl}${page.path}`,
+        item: pageUrl,
       },
     ],
   }, null, 2);
 }
 
 function generatePageHTML(baseHtml, page) {
-  const canonicalUrl = `${siteUrl}${page.path}`;
+  const canonicalUrl = `${siteUrl}${page.path}/`;
   const breadcrumbSchema = generateBreadcrumbSchema(page);
 
   return baseHtml
@@ -107,12 +109,12 @@ function generateSitemap(publishedArticles, buildDate) {
   const urls = [
     { loc: `${siteUrl}/`, changefreq: 'weekly', priority: '1.0' },
     ...pageRoutes.map((page) => ({
-      loc: `${siteUrl}${page.path}`,
+      loc: `${siteUrl}${page.path}/`,
       changefreq: page.changefreq,
       priority: page.priority,
     })),
     ...publishedArticles.map((article) => ({
-      loc: `${siteUrl}/blog/${article.slug}`,
+      loc: `${siteUrl}/blog/${article.slug}/`,
       changefreq: 'monthly',
       priority: '0.7',
       lastmod: article.publishDate,
@@ -125,7 +127,7 @@ function generateSitemap(publishedArticles, buildDate) {
 // HTML шаблон для статті
 function generateArticleHTML(article) {
   const keywords = article.keywords.join(', ');
-  const articleUrl = `${siteUrl}/blog/${article.slug}`;
+  const articleUrl = `${siteUrl}/blog/${article.slug}/`;
   
   return `<!DOCTYPE html>
 <html lang="uk">
