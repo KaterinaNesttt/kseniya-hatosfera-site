@@ -77,7 +77,7 @@ async function getPublishedArticles(url: URL, db: D1Database) {
   query += ` LIMIT ? OFFSET ?`;
   params.push(limit.toString(), offset.toString());
 
-  const result = await db.prepare(query).all(...params);
+  const result = await db.prepare(query).bind(...params).all();
 
   // Форматування результату
   const articles = result.results.map((row: any) => ({
@@ -97,7 +97,7 @@ async function getPublishedArticles(url: URL, db: D1Database) {
     const searchPattern = `%${search}%`;
     countParams.push(searchPattern, searchPattern, searchPattern);
   }
-  const countResult = await db.prepare(countQuery).first(...countParams);
+  const countResult = await db.prepare(countQuery).bind(...countParams).first();
 
   return {
     articles,
@@ -127,7 +127,7 @@ async function getUpcomingArticles(db: D1Database) {
 async function getArticleBySlug(slug: string, db: D1Database) {
   const result = await db.prepare(`
     SELECT * FROM articles WHERE slug = ? AND publish_date <= date('now')
-  `).first(slug);
+  `).bind(slug).first();
 
   if (!result) {
     return null;
