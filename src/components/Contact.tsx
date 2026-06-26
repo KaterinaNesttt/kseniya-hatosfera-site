@@ -16,8 +16,8 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email",
-      content: "ksenia.bondarenko@gmail.ua",
-      link: "mailto:ksenia.bondarenko@gmail.ua",
+      content: "kseniiabondarenko11@gmail.com",
+      link: "mailto:kseniiabondarenko11@gmail.com",
     },
     {
       icon: MapPin,
