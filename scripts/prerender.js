@@ -1,13 +1,13 @@
 /**
  * Prerender скрипт для SEO
- * Генерує статичні HTML-файли для кожної статті блогу
+ * Генерує статичні HTML-файли для сторінок і статей блогу
  * 
  * Це дозволяє Googlebot бачити повний контент без виконання JS
  * 
  * Використання:
  *   node scripts/prerender.js
  * 
- * Результат: dist/blog/*.html — готові SEO-сторінки
+ * Результат: dist/{route}/index.html і dist/blog/{slug}/index.html — готові SEO-сторінки
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
@@ -16,16 +16,116 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(__dirname, '..');
+const siteUrl = 'https://ksgenadivna.pp.ua';
+const ogImage = `${siteUrl}/og-image.png`;
+
+const pageRoutes = [
+  {
+    path: '/poslugy',
+    dir: 'poslugy',
+    label: 'Послуги',
+    title: 'Послуги рієлтора у Кропивницькому | Ксенія Бондаренко',
+    description: 'Послуги рієлтора у Кропивницькому: купівля, продаж, оренда, оцінка нерухомості та юридичний супровід угод.',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/pro-mene',
+    dir: 'pro-mene',
+    label: 'Про мене',
+    title: 'Про Ксенію Бондаренко | Рієлтор у Кропивницькому',
+    description: 'Ксенія Бондаренко — рієлтор у Кропивницькому з досвідом супроводу купівлі, продажу та оренди нерухомості.',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/blog',
+    dir: 'blog',
+    label: 'Блог',
+    title: 'Блог про нерухомість Кропивницького | Ксенія Бондаренко',
+    description: 'Статті, поради та аналітика про купівлю, продаж, оренду й ринок нерухомості у Кропивницькому.',
+    changefreq: 'daily',
+    priority: '0.9',
+  },
+];
 
 // Читаємо статті
 const articles = JSON.parse(
   readFileSync(join(rootDir, 'src/data/articles.json'), 'utf-8')
 );
 
+function getKyivDate() {
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Kyiv',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(new Date());
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return `${values.year}-${values.month}-${values.day}`;
+}
+
+function generateBreadcrumbSchema(page) {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Головна',
+        item: `${siteUrl}/`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: page.label,
+        item: `${siteUrl}${page.path}`,
+      },
+    ],
+  }, null, 2);
+}
+
+function generatePageHTML(baseHtml, page) {
+  const canonicalUrl = `${siteUrl}${page.path}`;
+  const breadcrumbSchema = generateBreadcrumbSchema(page);
+
+  return baseHtml
+    .replace(/<title>.*?<\/title>/, `<title>${page.title}</title>`)
+    .replace(/<meta name="title" content="[^"]*" \/>/, `<meta name="title" content="${page.title}" />`)
+    .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${page.description}" />`)
+    .replace(/<link rel="canonical" href="[^"]*" \/>/, `<link rel="canonical" href="${canonicalUrl}" />`)
+    .replace(/<meta property="og:title" content="[^"]*" \/>/, `<meta property="og:title" content="${page.title}" />`)
+    .replace(/<meta property="og:description" content="[^"]*" \/>/, `<meta property="og:description" content="${page.description}" />`)
+    .replace(/<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${canonicalUrl}" />`)
+    .replace(/<meta name="twitter:title" content="[^"]*" \/>/, `<meta name="twitter:title" content="${page.title}" />`)
+    .replace(/<meta name="twitter:description" content="[^"]*" \/>/, `<meta name="twitter:description" content="${page.description}" />`)
+    .replace('</head>', `    <script type="application/ld+json">\n${breadcrumbSchema}\n    </script>\n  </head>`);
+}
+
+function generateSitemap(publishedArticles, buildDate) {
+  const urls = [
+    { loc: `${siteUrl}/`, changefreq: 'weekly', priority: '1.0' },
+    ...pageRoutes.map((page) => ({
+      loc: `${siteUrl}${page.path}`,
+      changefreq: page.changefreq,
+      priority: page.priority,
+    })),
+    ...publishedArticles.map((article) => ({
+      loc: `${siteUrl}/blog/${article.slug}`,
+      changefreq: 'monthly',
+      priority: '0.7',
+      lastmod: article.publishDate,
+    })),
+  ];
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9\n        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n${urls.map((url) => `  <url>\n    <loc>${url.loc}</loc>\n    <lastmod>${url.lastmod || buildDate}</lastmod>\n    <changefreq>${url.changefreq}</changefreq>\n    <priority>${url.priority}</priority>\n  </url>`).join('\n')}\n</urlset>\n`;
+}
+
 // HTML шаблон для статті
 function generateArticleHTML(article) {
   const keywords = article.keywords.join(', ');
-  const articleUrl = `https://ksgenadivna.pp.ua/blog/${article.slug}`;
+  const articleUrl = `${siteUrl}/blog/${article.slug}`;
   
   return `<!DOCTYPE html>
 <html lang="uk">
@@ -44,6 +144,10 @@ function generateArticleHTML(article) {
   <meta property="og:description" content="${article.metaDescription}">
   <meta property="og:url" content="${articleUrl}">
   <meta property="og:site_name" content="Ксенія Бондаренко — Агент з нерухомості">
+  <meta property="og:image" content="${ogImage}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="${article.title}">
   <meta property="article:published_time" content="${article.publishDate}T${article.publishTime}:00+03:00">
   <meta property="article:author" content="Ксенія Бондаренко">
   <meta property="article:section" content="${article.category}">
@@ -52,6 +156,7 @@ function generateArticleHTML(article) {
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${article.title}">
   <meta name="twitter:description" content="${article.metaDescription}">
+  <meta name="twitter:image" content="${ogImage}">
   
   <!-- Schema.org Article -->
   <script type="application/ld+json">
@@ -70,8 +175,16 @@ function generateArticleHTML(article) {
       "name": "Ксенія Бондаренко — Агент з нерухомості",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://ksgenadivna.pp.ua/og-image.png"
+        "url": "${ogImage}",
+        "width": 1200,
+        "height": 630
       }
+    },
+    "image": {
+      "@type": "ImageObject",
+      "url": "${ogImage}",
+      "width": 1200,
+      "height": 630
     },
     "datePublished": "${article.publishDate}T${article.publishTime}:00+03:00",
     "dateModified": "${article.publishDate}T${article.publishTime}:00+03:00",
@@ -129,21 +242,41 @@ function generateArticleHTML(article) {
 </html>`;
 }
 
-// Генеруємо HTML для кожної статті
+const buildDate = getKyivDate();
+const publishedArticles = articles.filter((article) => article.publishDate <= buildDate);
+
+// Генеруємо HTML для основних сторінок
+const distIndexPath = join(rootDir, 'dist/index.html');
+const baseHtml = readFileSync(distIndexPath, 'utf-8');
+
+for (const page of pageRoutes) {
+  const pageDir = join(rootDir, 'dist', page.dir);
+  if (!existsSync(pageDir)) {
+    mkdirSync(pageDir, { recursive: true });
+  }
+  writeFileSync(join(pageDir, 'index.html'), generatePageHTML(baseHtml, page), 'utf-8');
+}
+
+// Генеруємо HTML для кожної опублікованої статті
 const outputDir = join(rootDir, 'dist/blog');
 if (!existsSync(outputDir)) {
   mkdirSync(outputDir, { recursive: true });
 }
 
 let generated = 0;
-for (const article of articles) {
+for (const article of publishedArticles) {
   const html = generateArticleHTML(article);
-  const filePath = join(outputDir, `${article.slug}.html`);
-  writeFileSync(filePath, html, 'utf-8');
+  const articleDir = join(outputDir, article.slug);
+  if (!existsSync(articleDir)) {
+    mkdirSync(articleDir, { recursive: true });
+  }
+  writeFileSync(join(articleDir, 'index.html'), html, 'utf-8');
   generated++;
 }
 
-console.log(`✅ Prerendered ${generated} articles to dist/blog/`);
+writeFileSync(join(rootDir, 'dist/sitemap.xml'), generateSitemap(publishedArticles, buildDate), 'utf-8');
+
+console.log(`✅ Prerendered ${pageRoutes.length} pages and ${generated} articles to dist/`);
 console.log('');
-console.log('Тепер Googlebot бачить кожну статтю як окремий HTML-файл з повним контентом.');
+console.log('Тепер Googlebot бачить опубліковані статті як окремі HTML-файли з повним контентом.');
 console.log('Додай ці файли до Cloudflare Pages при деплої.');

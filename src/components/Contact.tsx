@@ -338,10 +338,7 @@ const Contact = () => {
               </Button>
 
               <p className="text-xs sm:text-sm text-muted-foreground text-center">
-                Надсилаючи форму, ви погоджуєтесь з{" "}
-                <a href="#" className="underline hover:text-primary transition-colors">
-                  політикою конфіденційності
-                </a>
+                Надсилаючи форму, ви погоджуєтесь з політикою конфіденційності
               </p>
             </form>
           </div>

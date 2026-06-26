@@ -1,19 +1,19 @@
-import { Phone, Mail, MapPin, Facebook, Instagram, Send } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import AnimatedBackground from "@/components/AnimatedBackground";
 
 const Footer = () => {
   const links = {
     services: [
-      { label: "Продаж нерухомості", href: "#" },
-      { label: "Оренда житла", href: "#" },
-      { label: "Оцінка нерухомості", href: "#" },
-      { label: "Юридичний супровід", href: "#" },
+      { label: "Продаж нерухомості", href: "/poslugy" },
+      { label: "Оренда житла", href: "/poslugy" },
+      { label: "Оцінка нерухомості", href: "/poslugy" },
+      { label: "Юридичний супровід", href: "/poslugy" },
     ],
     company: [
-      { label: "Про агенцію", href: "#about" },
-      { label: "Новини", href: "#news" },
-      { label: "Контакти", href: "#contact" },
+      { label: "Про агенцію", href: "/pro-mene" },
+      { label: "Новини", href: "/blog" },
+      { label: "Контакти", href: "/#contact" },
     ],
   };
 
@@ -37,17 +37,21 @@ const Footer = () => {
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
             <a
-              href="#"
+              href="/"
               className="flex items-center gap-3 mb-6 group"
               onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                if (window.location.pathname === "/") {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
               }}
             >
               <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3 overflow-hidden p-1.5">
                 <img
                   src="/logo.png"
                   alt="Ксенія Бондаренко — логотип"
+                  width="840"
+                  height="840"
                   className="w-full h-full object-contain brightness-0 invert"
                 />
               </div>
@@ -64,26 +68,6 @@ const Footer = () => {
               Професійний агент з нерухомості з багаторічним досвідом.
               Допомагаю знаходити ідеальне житло для кожного клієнта.
             </p>
-
-            {/* Social */}
-            <div className="flex gap-3">
-              {[
-                { icon: Facebook, label: "Facebook", href: "#" },
-                { icon: Instagram, label: "Instagram", href: "#" },
-                { icon: Send, label: "Telegram", href: "#" },
-              ].map((social, i) => (
-                <a
-                  key={i}
-                  href={social.href}
-                  className="w-10 h-10 bg-primary-foreground/10 hover:bg-primary rounded-lg flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                  aria-label={`Відкрити ${social.label}`}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <social.icon className="w-5 h-5" />
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Services */}
@@ -175,20 +159,6 @@ const Footer = () => {
           <p className="text-primary-foreground/50 text-xs sm:text-sm text-center sm:text-left">
             © 2026 Ксенія Бондаренко. Всі права захищені.
           </p>
-          <div className="flex gap-4 sm:gap-6 text-xs sm:text-sm">
-            <a
-              href="#"
-              className="text-primary-foreground/50 hover:text-primary-foreground transition-colors duration-200"
-            >
-              Політика конфіденційності
-            </a>
-            <a
-              href="#"
-              className="text-primary-foreground/50 hover:text-primary-foreground transition-colors duration-200"
-            >
-              Умови використання
-            </a>
-          </div>
         </div>
       </div>
     </footer>

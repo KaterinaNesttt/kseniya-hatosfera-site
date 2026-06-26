@@ -90,9 +90,9 @@ const Blog = () => {
           <span className="text-primary font-medium uppercase tracking-widest text-sm">
             Блог
           </span>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mt-3 mb-4">
+          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mt-3 mb-4">
             <span className="heading-underline">Новини та статті</span>
-          </h2>
+          </h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto mt-6">
             Корисна інформація про ринок нерухомості Кропивницького, поради та аналітика
           </p>
@@ -194,7 +194,7 @@ const Blog = () => {
                   </div>
 
                   <a
-                    href={`/blog/${article.slug}.html`}
+                    href={`/blog/${article.slug}`}
                     className="inline-flex items-center text-primary hover:text-primary/80 font-medium text-sm transition-colors"
                   >
                     Читати далі →

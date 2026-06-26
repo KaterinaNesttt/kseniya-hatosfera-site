@@ -68,9 +68,9 @@ const AboutPage = () => {
           <span className="text-primary font-medium uppercase tracking-widest text-sm">
             Про мене
           </span>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mt-3 mb-4">
+          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mt-3 mb-4">
             <span className="heading-underline">Ксенія Бондаренко</span>
-          </h2>
+          </h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto mt-6">
             Професійний агент з нерухомості у Кропивницькому. Допомагаю знаходити ідеальні рішення для вашого комфорту.
           </p>
@@ -98,6 +98,8 @@ const AboutPage = () => {
               <img
                 src={ownerImage}
                 alt="Ксенія Бондаренко - агент з нерухомості у Кропивницькому"
+                width="1024"
+                height="1024"
                 loading="lazy"
                 className="w-full h-[380px] sm:h-[450px] md:h-[500px] object-cover object-top transition-transform duration-700 group-hover:scale-105"
               />
@@ -140,7 +142,7 @@ const AboutPage = () => {
               size="lg"
               className="bg-primary text-primary-foreground hover:bg-steel-dark px-8 py-6 text-base font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
             >
-              <a href="#contact" className="flex items-center gap-2">
+              <a href="/#contact" className="flex items-center gap-2">
                 <Phone className="w-5 h-5" />
                 Зв'язатися зі мною
               </a>

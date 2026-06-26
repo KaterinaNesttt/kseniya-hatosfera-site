@@ -27,10 +27,10 @@ const Header = () => {
   }, [isMenuOpen]);
 
   const navLinks = [
-    { href: "#about", id: "about", label: "Про мене" },
-    { href: "#services", id: "services", label: "Послуги" },
-    { href: "#news", id: "news", label: "Блог" },
-    { href: "#contact", id: "contact", label: "Контакти" },
+    { href: "/pro-mene", id: "about", label: "Про мене" },
+    { href: "/poslugy", id: "services", label: "Послуги" },
+    { href: "/blog", id: "news", label: "Блог" },
+    { href: "/#contact", id: "contact", label: "Контакти" },
   ];
 
   // Активна секція для підсвічування навігації
@@ -40,8 +40,11 @@ const Header = () => {
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string
   ) => {
-    e.preventDefault();
     setIsMenuOpen(false);
+    if (!href.startsWith("#")) {
+      return;
+    }
+    e.preventDefault();
     const target = document.querySelector(href);
     if (target) {
       const headerOffset = 80;
@@ -74,18 +77,22 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <a
-            href="#"
+            href="/"
             className="flex items-center gap-3 group"
             onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
               setIsMenuOpen(false);
+              if (window.location.pathname === "/") {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
             }}
           >
             <div className="w-10 h-10 md:w-12 md:h-12 bg-primary-foreground rounded-lg flex items-center justify-center shadow-sm transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3 overflow-hidden p-1.5">
               <img
-                src="/logo.png"
+                src="/logo.webp"
                 alt="Ксенія Бондаренко — логотип"
+                width="840"
+                height="840"
                 className="w-full h-full object-contain"
               />
             </div>

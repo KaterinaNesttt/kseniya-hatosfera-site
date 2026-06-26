@@ -1,4 +1,4 @@
 # Cloudflare Pages redirects
 # API запити проксіються на Worker
 
-/api/*  https://ksbondarenko-blog-api.pp.ua/api/:splat  200
+/api/*  https://ksbondarenko-blog-api.roman-v-shkurenko.workers.dev/api/:splat  200

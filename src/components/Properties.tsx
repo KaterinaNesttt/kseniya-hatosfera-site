@@ -77,6 +77,8 @@ const Properties = () => {
                 <img
                   src={property.image}
                   alt={property.title}
+                  width="800"
+                  height="600"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute top-4 left-4 flex gap-2">

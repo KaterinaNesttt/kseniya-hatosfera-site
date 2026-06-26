@@ -84,6 +84,8 @@ const About = () => {
               <img
                 src={ownerImage}
                 alt="Ксенія Бондаренко - агент з нерухомості"
+                width="1024"
+                height="1024"
                 loading="lazy"
                 className="w-full h-[380px] sm:h-[450px] md:h-[500px] object-cover object-top transition-transform duration-700 group-hover:scale-105"
               />

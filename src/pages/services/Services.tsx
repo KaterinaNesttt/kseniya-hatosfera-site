@@ -60,9 +60,9 @@ const Services = () => {
           <span className="text-primary font-medium uppercase tracking-widest text-sm">
             Послуги
           </span>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mt-3 mb-4">
+          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mt-3 mb-4">
             <span className="heading-underline">Мої послуги</span>
-          </h2>
+          </h1>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto mt-6">
             Повний спектр послуг у сфері нерухомості у Кропивницькому. Індивідуальний підхід до кожного клієнта.
           </p>
@@ -108,7 +108,7 @@ const Services = () => {
             size="lg"
             className="bg-primary text-primary-foreground hover:bg-steel-dark px-8 py-6 text-base font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
           >
-            <a href="#contact">Безкоштовна консультація</a>
+            <a href="/#contact">Безкоштовна консультація</a>
           </Button>
         </div>
       </div>

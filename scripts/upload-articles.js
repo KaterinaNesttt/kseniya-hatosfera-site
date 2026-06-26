@@ -68,7 +68,7 @@ function generateBatchInsertSQL(articles) {
 }
 
 // Зберігаємо SQL файл
-const sql = generateBatchInsertSQL(articlesData);
+const sql = `DELETE FROM articles;\n\n${generateBatchInsertSQL(articlesData)}\n`;
 writeFileSync(join(__dirname, 'upload-articles.sql'), sql);
 
 console.log(`✅ Generated SQL for ${articlesData.length} articles`);
