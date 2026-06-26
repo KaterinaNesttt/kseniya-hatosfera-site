@@ -12,6 +12,7 @@ const Index = lazy(() => import("./pages/Index"));
 const Services = lazy(() => import("./pages/services/Services"));
 const AboutPage = lazy(() => import("./pages/about/AboutPage"));
 const Blog = lazy(() => import("./pages/blog/Blog"));
+const ArticlePage = lazy(() => import("./pages/blog/ArticlePage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Loading fallback
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/poslugy" element={<Services />} />
             <Route path="/pro-mene" element={<AboutPage />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<ArticlePage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
