@@ -44,10 +44,12 @@ const Footer = () => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             >
-              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3">
-                <span className="text-primary-foreground font-serif text-xl font-bold">
-                  КБ
-                </span>
+              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3 overflow-hidden p-1.5">
+                <img
+                  src="/logo.png"
+                  alt="Ксенія Бондаренко — логотип"
+                  className="w-full h-full object-contain brightness-0 invert"
+                />
               </div>
               <div>
                 <span className="font-serif text-xl font-semibold block">

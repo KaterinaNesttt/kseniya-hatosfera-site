@@ -190,7 +190,7 @@ const News = () => {
               sidebarReveal.isVisible ? "is-visible" : ""
             }`}
           >
-            <div className="bg-gradient-to-br from-primary to-steel-dark rounded-2xl p-6 md:p-8 text-primary-foreground sticky top-24 shadow-xl relative overflow-hidden">
+            <div className="bg-gradient-to-br from-primary to-steel-dark rounded-2xl p-6 md:p-8 text-primary-foreground sticky top-24 shadow-xl overflow-hidden">
               {/* Декоративний елемент */}
               <div className="absolute -top-12 -right-12 w-40 h-40 bg-primary-foreground/10 rounded-full blur-2xl" />
               <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-primary-foreground/5 rounded-full blur-2xl" />

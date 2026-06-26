@@ -82,10 +82,12 @@ const Header = () => {
               setIsMenuOpen(false);
             }}
           >
-            <div className="w-10 h-10 md:w-12 md:h-12 bg-primary-foreground rounded-lg flex items-center justify-center shadow-sm transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3">
-              <span className="text-primary font-serif text-lg md:text-xl font-bold">
-                КБ
-              </span>
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-primary-foreground rounded-lg flex items-center justify-center shadow-sm transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3 overflow-hidden p-1.5">
+              <img
+                src="/logo.png"
+                alt="Ксенія Бондаренко — логотип"
+                className="w-full h-full object-contain"
+              />
             </div>
             <div className="hidden sm:block">
               <span

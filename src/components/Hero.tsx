@@ -83,9 +83,10 @@ const Hero = () => {
             className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-primary-foreground leading-[1.1] mb-6 animate-blur-in"
             style={{ animationDelay: "0.15s", opacity: 0 }}
           >
-            Знайдемо ваш{" "}
+            Знайду вашу{" "}
             <span className="block mt-2 bg-gradient-to-r from-primary-foreground via-steel-light to-primary-foreground bg-[length:200%_auto] bg-clip-text text-transparent animate-gradient-shift">
-              ідеальний дім у Кропивницькому
+              ідеальну домівку <br /> 
+              <span className="text-steel-light text-2xl">у м.Кропивницький</span>
             </span>
           </h1>
 
@@ -109,7 +110,6 @@ const Hero = () => {
             >
               <a href="#contact" onClick={handleConsultClick}>
                 Безкоштовна консультація
-                <ArrowRight className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
             </Button>
           </div>
