@@ -53,7 +53,7 @@ async function getPublishedArticles(url: URL, db: D1Database) {
     SELECT id, slug, title, meta_description, keywords, category, 
            read_time, publish_date, publish_time
     FROM articles 
-    WHERE publish_date <= date('now')
+    WHERE publish_date <= date('now', '+3 hours')
   `;
   const params: string[] = [];
 
@@ -86,7 +86,7 @@ async function getPublishedArticles(url: URL, db: D1Database) {
   }));
 
   // Підрахунок загальної кількості
-  let countQuery = `SELECT COUNT(*) as total FROM articles WHERE publish_date <= date('now')`;
+  let countQuery = `SELECT COUNT(*) as total FROM articles WHERE publish_date <= date('now', '+3 hours')`;
   const countParams: string[] = [];
   if (category && category !== 'Всі') {
     countQuery += ` AND category = ?`;
@@ -112,7 +112,7 @@ async function getUpcomingArticles(db: D1Database) {
   const result = await db.prepare(`
     SELECT id, slug, title, category, publish_date, publish_time
     FROM articles 
-    WHERE publish_date > date('now')
+    WHERE publish_date > date('now', '+3 hours')
     ORDER BY publish_date ASC, publish_time ASC
     LIMIT 10
   `).all();
@@ -126,7 +126,7 @@ async function getUpcomingArticles(db: D1Database) {
 // GET /api/articles/:slug — окрема стаття
 async function getArticleBySlug(slug: string, db: D1Database) {
   const result = await db.prepare(`
-    SELECT * FROM articles WHERE slug = ? AND publish_date <= date('now')
+    SELECT * FROM articles WHERE slug = ? AND publish_date <= date('now', '+3 hours')
   `).bind(slug).first();
 
   if (!result) {
@@ -224,7 +224,7 @@ export default {
     // Перевіряємо чи є нові статті для публікації
     const result = await env.DB.prepare(`
       SELECT COUNT(*) as count FROM articles 
-      WHERE publish_date = date('now')
+      WHERE publish_date = date('now', '+3 hours')
     `).first();
 
     const publishedToday = result?.count || 0;

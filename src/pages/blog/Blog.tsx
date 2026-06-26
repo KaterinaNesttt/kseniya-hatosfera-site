@@ -25,7 +25,7 @@ type ApiResponse = {
   offset: number;
 };
 
-const API_BASE = "/api/articles";
+const API_BASE = "https://ksbondarenko-blog-api.roman-v-shkurenko.workers.dev/api/articles";
 
 const Blog = () => {
   const [articles, setArticles] = useState<Article[]>([]);
