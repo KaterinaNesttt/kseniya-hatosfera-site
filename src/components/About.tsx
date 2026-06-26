@@ -1,5 +1,5 @@
 import { CheckCircle, Award, Shield, Heart } from "lucide-react";
-import ownerImage from "@/assets/owner.jpg";
+import ownerImage from "@/assets/owner.webp";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import AnimatedBackground from "@/components/AnimatedBackground";
 
