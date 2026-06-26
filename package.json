@@ -5,12 +5,19 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/prerender.js",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "upload-articles": "node scripts/upload-articles.js",
+    "prerender": "node scripts/prerender.js",
+    "worker:dev": "wrangler dev",
+    "worker:deploy": "wrangler deploy",
+    "d1:create": "wrangler d1 create ksbondarenko-blog",
+    "d1:migrate": "wrangler d1 execute ksbondarenko-blog --file=worker/schema.sql",
+    "d1:upload": "wrangler d1 execute ksbondarenko-blog --file=scripts/upload-articles.sql"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -65,6 +72,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
+    "@rollup/plugin-json": "^6.1.0",
     "@tailwindcss/typography": "^0.5.16",
     "@testing-library/jest-dom": "^6.6.0",
     "@testing-library/react": "^16.0.0",

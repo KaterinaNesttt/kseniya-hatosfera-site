@@ -46,7 +46,7 @@ const Footer = () => {
             >
               <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3">
                 <span className="text-primary-foreground font-serif text-xl font-bold">
-                  ХСФ
+                  КБ
                 </span>
               </div>
               <div>
@@ -74,7 +74,9 @@ const Footer = () => {
                   key={i}
                   href={social.href}
                   className="w-10 h-10 bg-primary-foreground/10 hover:bg-primary rounded-lg flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                  aria-label={social.label}
+                  aria-label={`Відкрити ${social.label}`}
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   <social.icon className="w-5 h-5" />
                 </a>
@@ -139,14 +141,14 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="mailto:ksenia.bondarenko@gmail.ua"
+                  href="mailto:kseniiabondarenko11@gmail.com"
                   className="group flex items-center gap-3 text-primary-foreground/70 hover:text-primary-foreground transition-colors duration-200"
                 >
                   <span className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:bg-primary group-hover:scale-110">
                     <Mail className="w-4 h-4 text-primary group-hover:text-primary-foreground transition-colors duration-200" />
                   </span>
                   <span className="text-sm md:text-base break-all">
-                    ksenia.bondarenko@gmail.ua
+                    kseniiabondarenko11@gmail.com
                   </span>
                 </a>
               </li>

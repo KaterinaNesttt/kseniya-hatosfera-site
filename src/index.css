@@ -4,7 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Хатосфера Design System
+/* KBondarenko Design System
    Акцентний колір: сталево-сірий з візитки
    Стиль: мінімалізм, елегантність, професіоналізм
 */
@@ -50,7 +50,7 @@
 
     --radius: 0.5rem;
 
-    /* Кастомні кольори Хатосфера */
+    /* Кастомні кольори бренду */
     --steel: 195 10% 46%;
     --steel-light: 195 10% 60%;
     --steel-dark: 195 12% 35%;

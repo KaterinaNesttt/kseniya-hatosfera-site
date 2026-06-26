@@ -28,7 +28,8 @@ const Header = () => {
 
   const navLinks = [
     { href: "#about", id: "about", label: "Про мене" },
-    { href: "#news", id: "news", label: "Новини" },
+    { href: "#services", id: "services", label: "Послуги" },
+    { href: "#news", id: "news", label: "Блог" },
     { href: "#contact", id: "contact", label: "Контакти" },
   ];
 
@@ -150,8 +151,9 @@ const Header = () => {
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className={`md:hidden relative p-2 ${textColor} hover:opacity-80 transition-opacity z-50`}
-            aria-label="Toggle menu"
+            aria-label={isMenuOpen ? "Закрити меню" : "Відкрити меню"}
             aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
           >
             <span className="relative block w-6 h-6">
               <Menu
@@ -174,11 +176,14 @@ const Header = () => {
 
         {/* Mobile Menu — анімоване випадне меню */}
         <div
+          id="mobile-menu"
           className={`md:hidden overflow-hidden transition-all duration-500 ease-out ${
             isMenuOpen
               ? "max-h-[80vh] opacity-100"
               : "max-h-0 opacity-0 pointer-events-none"
           }`}
+          role="navigation"
+          aria-label="Мобільна навігація"
         >
           <div className="py-6 border-t border-primary-foreground/20">
             <nav className="flex flex-col gap-1">

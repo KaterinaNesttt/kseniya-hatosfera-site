@@ -85,7 +85,7 @@ const Hero = () => {
           >
             Знайдемо ваш{" "}
             <span className="block mt-2 bg-gradient-to-r from-primary-foreground via-steel-light to-primary-foreground bg-[length:200%_auto] bg-clip-text text-transparent animate-gradient-shift">
-              ідеальний дім
+              ідеальний дім у Кропивницькому
             </span>
           </h1>
 
@@ -94,8 +94,7 @@ const Hero = () => {
             className="text-base sm:text-lg md:text-xl text-primary-foreground/85 mb-8 max-w-xl mx-auto md:mx-0 leading-relaxed animate-fade-up"
             style={{ animationDelay: "0.35s", opacity: 0 }}
           >
-            Професійний підхід до пошуку нерухомості. Довіртеся експерту з
-            багаторічним досвідом.
+            Професійний підхід до пошуку нерухомості у Кропивницькому. Допомагаю купити, продати або орендувати житло з гарантією безпеки угоди.
           </p>
 
           {/* Кнопки */}

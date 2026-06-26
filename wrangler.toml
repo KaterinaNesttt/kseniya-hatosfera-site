@@ -1,0 +1,22 @@
+name = "ksbondarenko-blog-api"
+main = "worker/index.ts"
+compatibility_date = "2024-01-01"
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "ksbondarenko-blog"
+database_id = "ae32fb08-58a6-495f-ad9c-71b9a65313d4"
+
+# Cron triggers — щодня о 9:00 за Київським часом
+[triggers]
+crons = ["0 6 * * *"]  # 09:00 Kyiv = 06:00 UTC (summer time)
+
+# Змінні оточення
+[vars]
+ENVIRONMENT = "production"
+SITE_URL = "https://ksgenadivna.pp.ua"
+
+# Налаштування логування
+[observability]
+enabled = true
